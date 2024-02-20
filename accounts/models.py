@@ -22,7 +22,8 @@ class User(AbstractBaseUser):
     birth_date = models.DateField(null=True, blank=True)
     profile_img = models.ImageField(
         upload_to='Users/Profile/', default='Users/Profile/default.jpg')
-    username = models.CharField(max_length=12, unique=True)
+    username = models.CharField(
+        max_length=12, unique=True, null=True, blank=True)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=11, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
