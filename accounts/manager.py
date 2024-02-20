@@ -16,15 +16,15 @@ class UserManager(BaseUserManager):
         self.required(password, 'Password')
 
         user = self.model(
-            email = self.normalize_email(email)
-            first_name = first_name
-            last_name = last_name
+            email=self.normalize_email(email),
+            first_name=first_name,
+            last_name=last_name,
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
-    
+
     def create_superuser(self, email, first_name, last_name, password):
 
         superuser = self.create_user(
