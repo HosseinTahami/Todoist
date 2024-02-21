@@ -18,7 +18,8 @@ class User(AbstractBaseUser):
 
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    gender = models.CharField(
+        max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     profile_img = models.ImageField(
         upload_to='Users/Profile/', default='Users/Profile/default.jpg')
