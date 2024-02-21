@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.backends import BaseBackend
 # Inside Project Imports
 
-from accounts.models import User
+from account.models import User
 
 
 class EmailBackend(BaseBackend):

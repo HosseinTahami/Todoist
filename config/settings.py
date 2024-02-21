@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core.apps.CoreConfig',
-    'accounts.apps.AccountsConfig',
+    'account.apps.AccountConfig',
 
 ]
 
@@ -137,9 +137,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTHENTICATION_BACKENDS = [
 
     #    'django.contrib.auth.backends.ModelBackend',
-    'accounts.backends.EmailBackend',
-    'accounts.backends.UsernameBackend',
+    'account.backends.EmailBackend',
+    'account.backends.UsernameBackend',
 ]
 
 # Default user model
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'account.User'
