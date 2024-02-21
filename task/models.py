@@ -26,6 +26,7 @@ class Task(models.Model):
         default='tasks/image/default.jpg', upload_to='tasks/image/')
     priority = models.CharField(choices=PRIORITY_CHOICES, max_length=1)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    categories = models.ManyToManyField('Category')
 
     def __str__(self):
         return f'{self.title} | {self.user.first_name}'
@@ -33,7 +34,6 @@ class Task(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
-    tasks = models.ManyToManyField(Task)
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(
         default='Categories/image/default.jpg', upload_to='Categories/image/')
