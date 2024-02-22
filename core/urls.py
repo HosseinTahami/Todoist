@@ -11,5 +11,5 @@ app_name = 'core'
 
 
 urlpatterns = [
-
+    path('home/', views.HomeView.as_view(), name='home'),
 ]
