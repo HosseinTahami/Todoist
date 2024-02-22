@@ -136,3 +136,11 @@ class UserRegisterForm(forms.Form):
             }
         )
     )
+
+    def clean(self):
+        password = self.cleaned_data['password']
+        confirm_password = self.cleaned_data['confirm_password']
+
+        if password and confirm_password and (password != confirm_password):
+            return ValidationError("Passwords do not match..!")
+        return password
