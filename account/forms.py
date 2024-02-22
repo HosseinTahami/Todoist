@@ -64,25 +64,26 @@ class UserProfileForm(forms.ModelForm):
             )
         }
 
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        user = User.objects.filter(email=email).exists()
-        if user:
-            raise ValidationError("This email is already registered..!")
-        return email
-
     def clean_username(self):
         username = self.cleaned_data['username']
-        user = User.objects.filter(username=username).exists()
-        if user:
-            raise ValidationError("This Username is already taken..!")
+        user = User.objects.filter(username=username)
+        if user.exists() and self.instance != user.first():
+            raise ValidationError("This Username is already registered..!")
+        return username
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data['phone_number']
-        user = User.objects.filter(phone_number=phone_number).exists()
-        if user:
-            raise ValidationError(
-                "An account exists with this phone number..!")
+        user = User.objects.filter(phone_number=phone_number)
+        if user.exists() and self.instance != user.first():
+            raise ValidationError("This phone number is already registered..!")
+        return phone_number
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        user = User.objects.filter(email=email)
+        if user.exists() and self.instance != user.first():
+            raise ValidationError("This email is already registered..!")
+        return email
 
 
 class UserRegisterForm(forms.Form):
