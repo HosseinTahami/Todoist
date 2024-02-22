@@ -1,6 +1,7 @@
 # Django Imports
 
 from django import forms
+from django.core.exceptions import ValidationError
 
 # Inside Project Imports
 
@@ -62,6 +63,26 @@ class UserProfileForm(forms.ModelForm):
                 }
             )
         }
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        user = User.objects.filter(email=email).exists()
+        if user:
+            raise ValidationError("This email is already registered..!")
+        return email
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        user = User.objects.filter(username=username).exists()
+        if user:
+            raise ValidationError("This Username is already taken..!")
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data['phone_number']
+        user = User.objects.filter(phone_number=phone_number).exists()
+        if user:
+            raise ValidationError(
+                "An account exists with this phone number..!")
 
 
 class UserRegisterForm(forms.Form):
