@@ -62,3 +62,56 @@ class UserProfileForm(forms.ModelForm):
                 }
             )
         }
+
+
+class UserRegisterForm(forms.Form):
+
+    first_name = forms.CharField(
+        label='First Name:',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'John'
+            }
+        )
+    )
+
+    last_name = forms.CharField(
+        label='Last Name:',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Doe'
+            }
+        )
+    )
+
+    email = forms.EmailField(
+        label='Email:',
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'JohnDoe@email.com'
+            }
+        )
+    )
+
+    password = forms.CharField(
+        label='Password:',
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': '*******'
+            }
+        )
+    )
+
+    confirm_password = forms.CharField(
+        label='Confirm Password:',
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': '*******'
+            }
+        )
+    )
