@@ -92,7 +92,7 @@ AUTH_USER_MODEL = "account.User"
 
 AUTHENTICATION_BACKENDS = [
     "account.backends.EmailBackend",
-    "django.contrib.auth.backends.ModelBackend"
+    "account.backends.UsernameBackend",
 ]
 
 # Password validation
