@@ -1,9 +1,6 @@
 # Django Imports
 from django.contrib.auth.models import BaseUserManager
 
-# Inside Project Imports
-from .models import User
-
 
 class CustomUserManager(BaseUserManager):
 
@@ -17,7 +14,7 @@ class CustomUserManager(BaseUserManager):
         self.check_field(email, 'Email')
         self.check_field(first_name, 'First Name')
         self.check_field(last_name, 'Last Name')
-        self.check_password(password, 'Password')
+        self.check_field(password, 'Password')
 
         user = self.model(
             first_name=first_name,
@@ -31,7 +28,7 @@ class CustomUserManager(BaseUserManager):
 
     def create_superuser(self, first_name, last_name, email, password):
 
-        user = user.create_user(
+        user = self.create_user(
             first_name, last_name, email, password
         )
         user.is_admin = True
