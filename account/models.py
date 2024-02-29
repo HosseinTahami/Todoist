@@ -23,7 +23,7 @@ class User(AbstractBaseUser):
     first_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
-    profile_image = models.ImageField(default=...)
+    profile_image = models.ImageField(null=True, blank=True)
     gender = models.CharField(choices=GENDER_CHOICES,
                               max_length=1, null=True, blank=True)
     is_admin = models.BooleanField(default=False)
@@ -34,8 +34,17 @@ class User(AbstractBaseUser):
 
     USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
-    REQUIRED_FIELDS = ['first_name', 'last_name',
-                       'username', 'phone_number']
+    REQUIRED_FIELDS = ['first_name', 'last_name']
+
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    def has_module_perms(self, app_label):
+        "Does the user have permissions to view the app `app_label`?"
+        # Simplest possible answer: Yes, always
+        return True
 
     @property
     def full_name(self):
