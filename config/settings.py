@@ -84,7 +84,16 @@ DATABASES = {
 
 # Custom User
 # https://docs.djangoproject.com/en/5.0/ref/settings/#std-setting-AUTH_USER_MODEL
+
 AUTH_USER_MODEL = "account.User"
+
+# Backends
+# https://docs.djangoproject.com/en/5.0/ref/settings/#std-setting-AUTHENTICATION_BACKENDS
+
+AUTHENTICATION_BACKENDS = [
+    "account.backends.EmailBackend",
+    "django.contrib.auth.backends.ModelBackend"
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
