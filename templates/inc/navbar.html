@@ -1,20 +1,36 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><strong>Todoist</strong></a>
+        <a class="navbar-brand" href="{% url 'core:home' %}"><strong>Todoist</strong></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
             aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarScroll">
             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                {% if request.user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" aria-current="page"
+                        href="{% url 'task:tasks' request.user.id %}">Tasks</a>
                 </li>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                </ul>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page"
+                        href="{% url 'task:categories' request.user.id %}">Category</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page"
+                        href="{% url 'account:profile' request.user.id %}">Profile:{{ request.user.email }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'account:logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'account:register' %}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'account:login' %}">Login</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>
