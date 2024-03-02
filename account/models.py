@@ -24,7 +24,7 @@ class User(AbstractBaseUser):
     last_name = models.CharField(max_length=50, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     profile_image = models.ImageField(
-        default='account/images/profile/default.jpg', upload_to='account/images/profile/')
+        default='account/profile/images/default.jpg', upload_to='profile/images/')
     gender = models.CharField(choices=GENDER_CHOICES,
                               max_length=1, null=True, blank=True)
     is_admin = models.BooleanField(default=False)
