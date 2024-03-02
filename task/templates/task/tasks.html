@@ -14,8 +14,8 @@ Tasks
 <div class="row row-cols-1 row-cols-md-4 g-3" style="padding-left: 3rem; padding-right: 3rem;">
     {% for task in tasks %}
     <div class="col">
-        <div class="card " style="width: 12rem; height: 20rem;">
-            <img src="{{ task.task_image.url }}" class="card-img-top" alt="..." style="width:12 rem; height: 9rem">
+        <div class="card " style="width: 18rem; height: 24rem;">
+            <img src="{{ task.task_image.url }}" class="card-img-top" alt="..." style="width:18 rem; height: 14rem">
             <div class="card-body">
                 <strong class="card-title">"{{ task.title|title }}"</strong>
                 {% if task.priority == 'C' %}
@@ -41,7 +41,7 @@ Tasks
     <h1 class="text-center display-4">Add New Task</h1>
 </div>
 <div class="col-lg-4 container mt-3 align-items-center">
-    <form action="" method="POST" class="card mb-4 container mt-3 align-items-center">
+    <form action="" method="POST" class="card mb-4 container mt-3 align-items-center" enctype="multipart/form-data">
         <br>
         {% csrf_token %}
         {{ form.as_p }}
