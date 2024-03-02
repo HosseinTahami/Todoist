@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,12 +11,10 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <title>{% block title %}{% endblock title %}</title>
-    <style>
-        .jumbotron {
-            padding: 20px;
-            background-color: #e9ecef;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'CSS/styles.css' %}">
+    {% block extra_head %}
+    {% endblock extra_head %}
+
 </head>
 
 <body>
