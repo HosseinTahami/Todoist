@@ -96,6 +96,11 @@ AUTHENTICATION_BACKENDS = [
     "account.backends.UsernameBackend",
 ]
 
+# Login Url
+# https://docs.djangoproject.com/en/5.0/ref/settings/#std-setting-LOGIN_URL
+
+LOGIN_URL = '/account/login/'
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
