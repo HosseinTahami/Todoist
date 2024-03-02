@@ -26,7 +26,7 @@ class Task(models.Model):
     task_image = models.ImageField(
         default='tasks/task/images/default.png', upload_to='tasks/task/images/')
     categories = models.ManyToManyField(
-        'Category', related_name='tasks', blank=True, limit_choices_to={'user': models.F('user')})
+        'Category', related_name='tasks', blank=True)
 
     def __str__(self):
         return self.title
