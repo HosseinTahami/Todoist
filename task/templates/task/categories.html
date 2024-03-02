@@ -27,4 +27,20 @@ Categories
     </div>
     {% endfor %}
 </div>
+{# Form #}
+<br>
+<hr>
+<br>
+<div style="padding-bottom: 3rem;">
+    <h1 class="text-center display-4">Add New Category</h1>
+</div>
+<div class="col-lg-4 container mt-3 align-items-center">
+    <form action="" method="POST" class="card mb-4 container mt-3 align-items-center" enctype="multipart/form-data">
+        <br>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-primary">
+        <br>
+    </form>
+</div>
 {% endblock content %}
