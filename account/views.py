@@ -17,7 +17,7 @@ class ProfileView(LoginRequiredMixin, View):
         return render(request, 'account/profile.html', {'user': user})
 
 
-class UserLoginView(LoginRequiredMixin, View):
+class UserLoginView(View):
 
     template_name = 'account/login.html'
     form_class = UserLoginForm
