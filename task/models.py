@@ -26,14 +26,14 @@ class Task(models.Model):
     task_image = models.ImageField(
         default='tasks/task/images/default.png', upload_to='tasks/task/images/')
     categories = models.ManyToManyField(
-        'Category', related_name='tasks')
+        'Category', related_name='tasks', blank=True, limit_choices_to={'user': models.F('user')})
 
     def __str__(self):
         return self.title
 
 
 class Category(models.Model):
-    user = user = models.ForeignKey(
+    user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='categories')
     title = models.CharField(max_length=70)
     created_at = models.DateTimeField(auto_now_add=True)
