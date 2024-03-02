@@ -8,7 +8,7 @@ from django.views import View
 # Inside Project Imports
 
 from .models import User
-from .forms import UserLoginForm
+from .forms import UserRegisterForm
 
 
 class ProfileView(LoginRequiredMixin, View):
@@ -17,10 +17,10 @@ class ProfileView(LoginRequiredMixin, View):
         return render(request, 'account/profile.html', {'user': user})
 
 
-class UserLoginView(View):
+class UserRegisterView(View):
 
-    template_name = 'account/login.html'
-    form_class = UserLoginForm
+    template_name = 'account/register.html'
+    form_class = UserRegisterForm
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
