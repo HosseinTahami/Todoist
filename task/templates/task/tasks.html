@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+Tasks
+{% endblock title %}
+
+
+{% block content %}
+<div style="padding-bottom: 3rem;">
+    <h1 class="text-center display-4">Tasks</h1>
+</div>
+<div class="row row-cols-1 row-cols-md-4 g-3" style="padding-left: 3rem; padding-right: 3rem;">
+    {% for task in tasks %}
+    <div class="col">
+        <div class="card " style="width: 12rem; height: 20rem;">
+            <img src="{{ task.task_image.url }}" class="card-img-top" alt="..." style="width:12 rem; height: 9rem">
+            <div class="card-body">
+                <strong class="card-title">"{{ task.title|title }}"</strong>
+                {% if task.priority == 'C' %}
+                <span class="badge rounded-pill text-bg-danger">Danger</span>
+                {% elif task.priority == 'M' %}
+                <span class="badge rounded-pill text-bg-danger">Danger</span>
+                {% else %}
+                <span class="badge rounded-pill text-bg-danger">Danger</span>
+                {% endif %}
+                <p class="card-text">{{ task.description|truncatechars:20 }}</p>
+                <br>
+                <a href="#" class="btn btn-primary">Detail</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
