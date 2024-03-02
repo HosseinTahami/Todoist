@@ -13,15 +13,18 @@ class ProfileViewForm(forms.ModelForm):
                   'last_name', 'username', 'date_of_birth']
 
 
-class UserLoginForm(forms.ModelForm):
+class UserRegisterForm(forms.ModelForm):
 
     confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(
         attrs={'class': 'form-control', 'placeholder': "*****"}))
 
     class Meta:
         model = models.User
-        fields = ['email', 'password', 'confirm_password']
+        fields = ['first_name', 'last_name',
+                  'email', 'password', 'confirm_password']
         widgets = {
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'mail@email.com'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '*****'})
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'JohnDoe@email.com'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '*****'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'John'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Doe'}),
         }
