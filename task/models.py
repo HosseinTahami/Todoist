@@ -40,7 +40,7 @@ class Category(models.Model):
     edited_at = models.DateTimeField(auto_now=True)
     description = models.TextField(blank=True, null=True)
     category_image = models.ImageField(
-        default='tasks/category/images/default.jpg', upload_to='tasks/category/images/')
+        default='tasks/category/images/default.png', upload_to='tasks/category/images/')
 
     def __str__(self):
         return self.title
