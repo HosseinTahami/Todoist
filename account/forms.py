@@ -28,3 +28,10 @@ class UserRegisterForm(forms.ModelForm):
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'John'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Doe'}),
         }
+
+
+class UserLoginForm(forms.Form):
+    authenticator = forms.CharField(label='Email or Username', widget=forms.TextInput(attrs={
+        'class': 'form-control', 'placeholder': 'JohnDoe or JohnDoe@email.com'}))
+    password = forms.CharField(label='Email or Username', widget=forms.PasswordInput(attrs={
+        'class': 'form-control', 'placeholder': '********'}))
