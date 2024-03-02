@@ -8,7 +8,7 @@ from django.contrib import messages
 # Inside Project Imports
 
 from .models import Category, Task
-from .forms import CreateTaskForm
+from .forms import CreateTaskForm, CreateCategoryForm
 
 
 class TaskView(LoginRequiredMixin, View):
@@ -29,17 +29,34 @@ class TaskView(LoginRequiredMixin, View):
         form = self.form_class(
             data=request.POST, files=request.FILES, user=self.user)
         if form.is_valid():
-            cd = form.cleaned_data
             new_task = form.save(commit=False)
             new_task.user = self.user
             new_task.save()
             messages.success(
                 request, 'Task Created Successfully', 'success')
-            return redirect('task:tasks', pk=self.user.id)
+        return redirect('task:tasks', pk=self.user.id)
 
 
 class CategoryView(LoginRequiredMixin, View):
+
+    template_name = 'task/categories.html'
+    form_class = CreateCategoryForm
+
+    def setup(self, request, *args, **kwargs):
+        self.user = request.user
+        return super().setup(request, *args, **kwargs)
+
     def get(self, request, *args, **kwargs):
-        user = request.user
-        categories = Category.objects.all().filter(user=user)
-        return render(request, 'task/categories.html', {'categories': categories})
+        form = self.form_class()
+        categories = Category.objects.all().filter(user=self.user)
+        return render(request, self.template_name, {'categories': categories, 'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(files=request.FILES, data=request.POST)
+        if form.is_valid():
+            new_category = form.save(commit=False)
+            new_category.user = self.user
+            new_category.save()
+            messages.success(
+                request, "Category Created Successfully..!", 'success')
+        return redirect('task:categories', pk=self.user.id)
