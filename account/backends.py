@@ -8,9 +8,9 @@ from .models import User
 
 class EmailBackend(BaseBackend):
 
-    def authenticate(self, request, email, password):
+    def authenticate(self, request, username, password):
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(email=username)
             if user.check_password(password):
                 return user
             return None
