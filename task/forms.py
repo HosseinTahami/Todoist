@@ -25,3 +25,16 @@ class CreateTaskForm(forms.ModelForm):
         del kwargs['user']
         super().__init__(*args, **kwargs)
         self.fields['categories'].queryset = Category.objects.filter(user=user)
+
+
+class CreateCategoryForm(forms.ModelForm):
+
+    class Meta:
+        model = Category
+        fields = ['title', 'description', 'category_image']
+
+        widgets = {
+            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Title"}),
+            "description": forms.Textarea(attrs={"class": "form-control", "placeholder": "...."}),
+            "category_image": forms.FileInput(attrs={"class": "form-control"}),
+        }
