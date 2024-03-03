@@ -48,6 +48,10 @@ class UserLoginView(View):
     template_name = 'account/login.html'
     from_class = UserLoginForm
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('account:profile', pk=request.user.id)
+
     def get(self, request, *args, **kwargs):
         form = self.from_class()
         return render(request, self.template_name, {'form': form})
