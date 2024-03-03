@@ -21,7 +21,7 @@ class TaskView(LoginRequiredMixin, View):
         return super().setup(request, *args, **kwargs)
 
     def dispatch(self, request, *args, **kwargs):
-        if self.user.id != kwargs['pk']:
+        if self.user.is_authenticated and self.user.id != kwargs['pk']:
             messages.warning(
                 request, 'Do not have access to other accounts tasks..!', 'secondary')
             return redirect('task:tasks', self.user.id)
@@ -54,7 +54,7 @@ class CategoryView(LoginRequiredMixin, View):
         return super().setup(request, *args, **kwargs)
 
     def dispatch(self, request, *args, **kwargs):
-        if kwargs['pk'] != self.user.id:
+        if self.user.is_authenticated and kwargs['pk'] != self.user.id:
             messages.warning(
                 request, 'Do not have access to other accounts categories..!', 'secondary')
             return redirect('task:tasks', self.user.id)
@@ -98,4 +98,9 @@ class UpdateTaskView(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        ...
+        form = self.form_class(instance=self.old_task,
+                               files=request.FILES, data=request.POST, user=self.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Task updated Successfully !', 'success')
+            return redirect('task:tasks', self.user.id)
