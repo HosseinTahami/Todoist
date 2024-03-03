@@ -5,7 +5,7 @@ from django import forms
 from .models import Task, Category
 
 
-class CreateTaskForm(forms.ModelForm):
+class TaskForm(forms.ModelForm):
 
     class Meta:
         model = Task
@@ -21,13 +21,13 @@ class CreateTaskForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        user = kwargs['user']
+        user = kwargs.get('user')
         del kwargs['user']
         super().__init__(*args, **kwargs)
         self.fields['categories'].queryset = Category.objects.filter(user=user)
 
 
-class CreateCategoryForm(forms.ModelForm):
+class CategoryForm(forms.ModelForm):
 
     class Meta:
         model = Category
