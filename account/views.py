@@ -53,6 +53,10 @@ class UserLoginView(View):
     template_name = 'account/login.html'
     from_class = UserLoginForm
 
+    def setup(self, request, *args, **kwargs):
+        self.next = request.GET.get('next', None)
+        return super().setup(request, *args, **kwargs)
+
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return redirect('account:profile', pk=request.user.id)
@@ -72,6 +76,8 @@ class UserLoginView(View):
                 login(request, user)
                 messages.success(
                     request, 'Logged In Successfully..!', 'success')
+                if self.next:
+                    return redirect(self.next)
                 return redirect('core:home')
             messages.error(
                 request, 'Wrong Password or Authenticator..!', 'danger')
