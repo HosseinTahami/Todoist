@@ -1,6 +1,6 @@
 # Django Imports
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -8,13 +8,13 @@ from django.contrib import messages
 # Inside Project Imports
 
 from .models import Category, Task
-from .forms import CreateTaskForm, CreateCategoryForm
+from .forms import TaskForm, CategoryForm
 
 
 class TaskView(LoginRequiredMixin, View):
 
     template_name = 'task/tasks.html'
-    form_class = CreateTaskForm
+    form_class = TaskForm
 
     def setup(self, request, *args, **kwargs):
         self.user = request.user
@@ -47,7 +47,7 @@ class TaskView(LoginRequiredMixin, View):
 class CategoryView(LoginRequiredMixin, View):
 
     template_name = 'task/categories.html'
-    form_class = CreateCategoryForm
+    form_class = CategoryForm
 
     def setup(self, request, *args, **kwargs):
         self.user = request.user
@@ -73,4 +73,29 @@ class CategoryView(LoginRequiredMixin, View):
             new_category.save()
             messages.success(
                 request, "Category Created Successfully..!", 'success')
-        return redirect('task:categories', pk=self.user.id)
+        return redirect('task:categories', self.user.id)
+
+
+class UpdateTaskView(View):
+
+    template_name = 'task/update_task.html'
+    form_class = TaskForm
+
+    def setup(self, request, *args, **kwargs):
+        self.old_task = get_object_or_404(Task, pk=kwargs['pk'])
+        self.user = request.user
+        return super().setup(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.user != self.old_task.user:
+            messages.error(
+                request, 'This task does not belong to you..!', 'danger')
+            return redirect('task:tasks', self.user.id)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(instance=self.old_task, user=self.user)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        ...
