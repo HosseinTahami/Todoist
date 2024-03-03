@@ -21,10 +21,10 @@ class TaskView(LoginRequiredMixin, View):
         return super().setup(request, *args, **kwargs)
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.id != kwargs['pk']:
+        if self.user.id != kwargs['pk']:
             messages.warning(
                 request, 'Do not have access to other accounts tasks..!', 'secondary')
-            return redirect('task:tasks', request.user.id)
+            return redirect('task:tasks', self.user.id)
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
@@ -52,6 +52,13 @@ class CategoryView(LoginRequiredMixin, View):
     def setup(self, request, *args, **kwargs):
         self.user = request.user
         return super().setup(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if kwargs['pk'] != self.user.id:
+            messages.warning(
+                request, 'Do not have access to other accounts categories..!', 'secondary')
+            return redirect('task:tasks', self.user.id)
+        return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
