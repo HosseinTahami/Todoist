@@ -20,6 +20,13 @@ class TaskView(LoginRequiredMixin, View):
         self.user = request.user
         return super().setup(request, *args, **kwargs)
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.id != kwargs['pk']:
+            messages.warning(
+                request, 'Do not have access to other accounts tasks..!', 'secondary')
+            return redirect('task:tasks', request.user.id)
+        return super().dispatch(request, *args, **kwargs)
+
     def get(self, request, *args, **kwargs):
         form = self.form_class(user=self.user)
         tasks = Task.objects.all().filter(user=self.user)
