@@ -21,7 +21,8 @@ Categories
                 <strong class="card-title">"{{ category.title|title }}"</strong>
                 <p class="card-text">{{ category.description|truncatechars:20 }}</p>
                 <br>
-                <a href="#" class="btn btn-primary">Detail</a>
+                <a href="{% url 'task:detail_category' category.id %}" class="btn btn-primary">Detail</a>
+                <a href="{% url 'task:update_category' category.id %}" class="btn btn-danger">Update</a>
             </div>
         </div>
     </div>
