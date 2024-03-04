@@ -124,3 +124,54 @@ class DetailTaskView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, {'task': self.task})
+
+
+class UpdateCategoryView(LoginRequiredMixin, View):
+
+    template_name = 'task/update_category.html'
+    form_class = CategoryForm
+
+    def setup(self, request, *args, **kwargs):
+        self.old_category = get_object_or_404(Category, pk=kwargs['pk'])
+        self.user = request.user
+        return super().setup(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.user.is_authenticated and self.user != self.old_category.user:
+            messages.error(
+                request, 'This category does not belong to you..!', 'danger')
+            return redirect('task:categories', self.user.id)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(instance=self.old_category)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(instance=self.old_category,
+                               files=request.FILES, data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request, 'Category updated Successfully !', 'success')
+            return redirect('task:categories', self.user.id)
+
+
+class DetailCategoryView(LoginRequiredMixin, View):
+
+    template_name = 'task/detail_category.html'
+
+    def setup(self, request, *args, **kwargs):
+        self.category = get_object_or_404(Category, pk=kwargs['pk'])
+        self.user = request.user
+        return super().setup(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.user.is_authenticated and self.category.user != self.user:
+            messages.error(
+                request, 'This category belongs to someone else..!', 'danger')
+            return redirect('task:categories', self.user.id)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {'category': self.category})
