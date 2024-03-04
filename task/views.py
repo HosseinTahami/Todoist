@@ -104,3 +104,23 @@ class UpdateTaskView(View):
             form.save()
             messages.success(request, 'Task updated Successfully !', 'success')
             return redirect('task:tasks', self.user.id)
+
+
+class DetailTaskView(LoginRequiredMixin, View):
+
+    template_name = 'task/detail_task.html'
+
+    def setup(self, request, *args, **kwargs):
+        self.task = get_object_or_404(Task, pk=kwargs['pk'])
+        self.user = request.user
+        return super().setup(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.user.is_authenticated and self.task.user != self.user:
+            messages.error(
+                request, 'This task belongs to someone else..!', 'danger')
+            return redirect('task:tasks', self.user.id)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {'task': self.task})
