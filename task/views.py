@@ -177,3 +177,41 @@ class DetailCategoryView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, {'category': self.category})
+
+
+class DeleteTaskView(LoginRequiredMixin, View):
+
+    def setup(self, request, *args, **kwargs):
+        self.user = request.user
+        self.task = get_object_or_404(Task, pk=kwargs['pk'])
+        return super().setup(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.user.is_authenticated and self.user.id != self.task.user.id:
+            messages.error(request, "It does not belong to you", "danger")
+            return redirect('tasks:task', self.user.id)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        self.task.delete()
+        messages.success(request, 'Task Deleted Successfully..!', 'primary')
+        return redirect('task:tasks', self.user.id)
+
+
+class DeleteCategoryView(LoginRequiredMixin, View):
+    def setup(self, request, *args, **kwargs):
+        self.user = request.user
+        self.category = get_object_or_404(Category, pk=kwargs['pk'])
+        return super().setup(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.user.is_authenticated and self.user.id != self.category.user.id:
+            messages.error(request, "It does not belong to you", "danger")
+            return redirect('tasks:categories', self.user.id)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        self.category.delete()
+        messages.success(
+            request, 'Category Deleted Successfully..!', 'primary')
+        return redirect('task:categories', self.user.id)
