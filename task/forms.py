@@ -1,5 +1,6 @@
 # Django Imports
 from django import forms
+from django.core.exceptions import ValidationError
 
 # Inside Project Imports
 from .models import Task, Category
@@ -21,10 +22,11 @@ class TaskForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.get('user')
+        self.user = kwargs.get('user')
         del kwargs['user']
         super().__init__(*args, **kwargs)
-        self.fields['categories'].queryset = Category.objects.filter(user=user)
+        self.fields['categories'].queryset = Category.objects.filter(
+            user=self.user)
 
 
 class CategoryForm(forms.ModelForm):
