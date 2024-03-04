@@ -27,7 +27,9 @@ Tasks
                 {% endif %}
                 <p class="card-text">{{ task.description|truncatechars:20 }}</p>
                 <br>
-                <a href="#" class="btn btn-primary">Detail</a>
+                <a href="{% url 'task:detail_task' task.id %}" class="btn btn-primary">Detail</a>
+                <a href="{% url 'task:update_task' task.id %}" class="btn"
+                    style="background: #ce1590;color: rgb(255, 255, 255);">Update</a>
             </div>
         </div>
     </div>
