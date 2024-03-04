@@ -14,6 +14,8 @@
 <p>{{ category.description }}</p>
 <strong>Created at:</strong>
 <small>{{ category.created_at }}</small>
+<hr>
+<a class="btn btn-danger" href="{% url 'task:delete_category' category.id %}">Delete</a>
 
 
 {% endblock content %}

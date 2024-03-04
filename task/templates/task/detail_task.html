@@ -19,7 +19,7 @@
 <br>
 <strong>Created at:</strong>
 <small>{{ task.created_at }}</small>
-
-
+<hr>
+<a class="btn btn-danger" href="{% url 'task:delete_task' task.id %}">Delete</a>
 
 {% endblock content %}

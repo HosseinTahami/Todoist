@@ -17,11 +17,8 @@
                         href="{% url 'task:categories' request.user.id %}">Category</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page"
-                        href="{% url 'account:profile' request.user.id %}">Profile:{{ request.user.email }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'account:logout' %}">Logout</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'account:logout' %}"><strong
+                            style="color: rgb(255, 0, 0);">Logout</strong></a>
                 </li>
                 {% else %}
                 <li class="nav-item">
@@ -32,6 +29,16 @@
                 </li>
                 {% endif %}
             </ul>
+            {% if request.user.is_authenticated %}
+            <ul class="navbar-nav justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link active justify-content-end" aria-current="page"
+                        href="{% url 'account:profile' request.user.id %}"><img
+                            src="{{ request.user.profile_image.url }}" alt="kir" class="rounded-circle img-fluid"
+                            style="width: 45px; height: 45px;"></a>
+                </li>
+            </ul>
+            {% endif %}
         </div>
     </div>
 </nav>
