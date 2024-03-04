@@ -14,9 +14,20 @@ from .models import User
 
 
 class ProfileView(LoginRequiredMixin, View):
+
+    def setup(self, request, *args, **kwargs):
+        self.user = get_object_or_404(User, pk=kwargs['pk'])
+        return super().setup(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.user.is_authenticated and self.user.id != request.user.id:
+            messages.error(
+                request, "This Profile Does Not Belong To You..!", "danger")
+            return redirect('account:profile', request.user.id)
+        return super().dispatch(request, *args, **kwargs)
+
     def get(self, request, *args, **kwargs):
-        user = get_object_or_404(User, pk=kwargs['pk'])
-        return render(request, 'account/profile.html', {'user': user})
+        return render(request, 'account/profile.html', {'user': self.user})
 
 
 class UserRegisterView(View):
