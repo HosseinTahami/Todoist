@@ -66,7 +66,8 @@ class CategoryView(LoginRequiredMixin, View):
         return render(request, self.template_name, {'categories': categories, 'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(files=request.FILES, data=request.POST)
+        form = self.form_class(files=request.FILES,
+                               data=request.POST)
         if form.is_valid():
             new_category = form.save(commit=False)
             new_category.user = self.user
@@ -155,6 +156,7 @@ class UpdateCategoryView(LoginRequiredMixin, View):
             messages.success(
                 request, 'Category updated Successfully !', 'success')
             return redirect('task:categories', self.user.id)
+        return render(request, self.template_name, {'form': self.form})
 
 
 class DetailCategoryView(LoginRequiredMixin, View):
