@@ -15,5 +15,8 @@ urlpatterns = [
          views.UpdateCategoryView.as_view(), name='update_category'),
     path('category/detail/<int:pk>/',
          views.DetailCategoryView.as_view(), name='detail_category'),
+    path('task/delete/<int:pk>/', views.DeleteTaskView.as_view(), name='delete_task'),
+    path('category/delete/<int:pk>/',
+         views.DeleteCategoryView.as_view(), name='delete_category'),
 
 ]
