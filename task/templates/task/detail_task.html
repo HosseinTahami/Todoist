@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{task.title}}
+{% endblock title %}
+
+
+{% block content %}
+
+<h1>{{ task.title }}</h1>
+<br>
+<strong>Description:</strong>
+<p>{{ task.description }}</p>
+<strong>Category:</strong>
+{% for category in task.categories.all %}
+<li>{{category}}</li>
+{% endfor %}
+<br>
+<strong>Created at:</strong>
+<small>{{ task.created_at }}</small>
+
+
+
+{% endblock content %}
